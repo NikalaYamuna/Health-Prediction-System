@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Consultation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: darkviolet;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            height: 80px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: palevioletred;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: darkmagenta;
+        }
+
+        .nav-links li a.active {
+            color: darkmagenta;
+            border-bottom: 2px solid darkmagenta;
+            background-color: rgba(139, 0, 139, 0.1);
+            padding-bottom: 2px;
+        }
+
+        .consultation-container {
+            background-color: #fff;
+            max-width: 1500px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #5f27cd;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 25px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: blue;
+        }
+
+        .location-container {
+            margin-top: 25px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            display: none;
+        }
+
+        .location-item {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .location-item a {
+            color: #5f27cd;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .location-item a:hover {
+            text-decoration: underline;
+        }
+
+        .flash {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .success { background: #d4edda; color: #155724; }
+        .danger { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Women's Health Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('input_page') }}">Health Input</a></li>
+                <li><a href="{{ url_for('report_page') }}">Personalized Report</a></li>
+                <li><a href="{{ url_for('recom_page') }}">Recommendations</a></li>
+                <li><a href="{{ url_for('consultation') }}" class="active">Consultation</a></li>
+                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Consultation Form -->
+    <div class="consultation-container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h1>📅 Book a Consultation</h1>
+        <p>Fill out the form below and one of our specialists will get in touch with you shortly.</p>
+
+        <form id="consultation-form" action="{{ url_for('book_consultation') }}" method="POST">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required />
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+            <label for="specialist">Preferred Specialist</label>
+            <select id="specialist" name="specialist" required onchange="showNearbyLocations()">
+                <option value="">-- Select --</option>
+                <option value="gynecologist">Gynecologist</option>
+                <option value="endocrinologist">Endocrinologist</option>
+                <option value="mental-health">Mental Health Counselor</option>
+                <option value="general">General Physician</option>
+                <option value="pulmonologist">Pulmonologist</option>
+            </select>
+
+            <label for="location">Your Location (City)</label>
+            <input type="text" id="location" name="location" placeholder="Enter your city" required />
+
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" name="date" required />
+
+            <label for="time">Preferred Time</label>
+            <input type="time" id="time" name="time" required />
+
+            <label for="message">Describe Your Concern</label>
+            <textarea id="message" name="message" rows="5" placeholder="Describe any symptoms, issues, or concerns you'd like to discuss..." required></textarea>
+
+            <button type="submit" class="submit-btn">Submit Request</button>
+        </form>
+
+        <!-- Locations Display -->
+        <div class="location-container" id="location-container">
+            <h2>Nearby Hospitals</h2>
+            <div id="location-list">
+                <!-- Location results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2025 Women's Health AI | Confidential and compassionate care for every woman.
+    </div>
+
+    <script>
+        // Function to show nearby locations based on the selected specialist and location
+        function showNearbyLocations() {
+            const specialist = document.getElementById('specialist').value;
+            const location = document.getElementById('location').value.trim();
+            const locationContainer = document.getElementById('location-container');
+            const locationList = document.getElementById('location-list');
+
+            if (specialist && location) {
+                // Send a request to the Flask backend for nearby hospitals
+                fetch(`/get_hospitals?specialist=${encodeURIComponent(specialist)}&location=${encodeURIComponent(location)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear previous location data
+                        locationList.innerHTML = '';
+
+                        if (data.length > 0) {
+                            data.forEach(hospital => {
+                                const locationItem = document.createElement('div');
+                                locationItem.className = 'location-item';
+                                locationItem.innerHTML = `
+                                    <p><strong>${hospital.name}</strong></p>
+                                    <p>${hospital.address}</p>
+                                    <p>Phone: <a href="tel:${hospital.phone}">${hospital.phone}</a></p>
+                                `;
+                                locationList.appendChild(locationItem);
+                            });
+                            locationContainer.style.display = 'block';
+                        } else {
+                            locationList.innerHTML = '<p>No nearby hospitals found.</p>';
+                            locationContainer.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching hospitals:', error);
+                        locationList.innerHTML = '<p>Error fetching nearby hospitals. Please try again later.</p>';
+                        locationContainer.style.display = 'block';
+                    });
+            } else {
+                locationContainer.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>

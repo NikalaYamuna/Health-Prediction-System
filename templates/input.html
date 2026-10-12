@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Women's Health And Wellness</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: darkviolet;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-img {
+      height: 80px;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: palevioletred;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    .nav-links li a:hover {
+      color: darkmagenta;
+    }
+
+    .nav-links li a.active {
+      color: darkmagenta;
+      border-bottom: 2px solid darkmagenta;
+      background-color: rgba(139, 0, 139, 0.1);
+      padding-bottom: 2px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 1500px;
+      margin: 40px auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: darkred;
+    }
+
+    h2 {
+      color: darkviolet;
+      margin-top: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .checkbox-group, .radio-group {
+      margin-bottom: 15px;
+    }
+
+    .checkbox-group label, .radio-group label {
+      display: inline-block;
+      margin-right: 15px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .consent-container {
+      margin-bottom: 20px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto 20px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: blue;
+    }
+
+    .flash {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .success { background: #d4edda; color: #155724; }
+    .danger { background: #f8d7da; color: #721c24; }
+    .info { background: #d1ecf1; color: #0c5460; }
+    .warning { background: #fff3cd; color: #856404; }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-end;
+      }
+
+      .logo-img {
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Women's Health Logo" class="logo-img">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('login') }}">Login</a></li>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('input_page') }}" class="active">Health Input</a></li>
+      <li><a href="{{ url_for('report_page') }}">Personalized Report</a></li>
+      <li><a href="{{ url_for('recom_page') }}">Recommendations</a></li>
+      <li><a href="{{ url_for('consultation') }}">Consultation</a></li>
+      <li><a href="{{ url_for('about') }}">About Us</a></li>
+      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<form action="{{ url_for('input_page') }}" method="POST" enctype="multipart/form-data">
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div>
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <h1>Health Input Form</h1>
+
+  <h2>Basic Information</h2>
+  <label for="full_name">Full Name</label>
+  <input type="text" id="full_name" name="full_name" required>
+
+  <label for="age">Age</label>
+  <input type="number" id="age" name="age" min="10" max="120" required>
+
+  <label for="height">Height (cm)</label>
+  <input type="number" id="height" name="height" min="50" max="250" step="0.01" required>
+
+  <label for="weight">Weight (kg)</label>
+  <input type="number" id="weight" name="weight" min="20" max="300" step="0.01" required>
+
+  <label for="contact">Email or Phone</label>
+  <input type="text" id="contact" name="contact" required>
+
+  <h2>Mental Health</h2>
+  <div class="checkbox-group" id="mental_health_group">
+    <label><input type="checkbox" name="mental_health" value="Depression"> Depression</label>
+    <label><input type="checkbox" name="mental_health" value="Anxiety Disorders"> Anxiety Disorders</label>
+    <label><input type="checkbox" name="mental_health" value="Schizophrenia"> Schizophrenia</label>
+    <label><input type="checkbox" name="mental_health" value="Bipolar Disorder"> Bipolar Disorder</label>
+    <label><input type="checkbox" name="mental_health" value="Panic Disorders"> Panic Disorders</label>
+    <label><input type="checkbox" name="mental_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Metabolic Health</h2>
+  <div class="checkbox-group" id="metabolic_health_group">
+    <label><input type="checkbox" name="metabolic_health" value="Diabetes"> Diabetes</label>
+    <label><input type="checkbox" name="metabolic_health" value="Hypothyroidism"> Hypothyroidism</label>
+    <label><input type="checkbox" name="metabolic_health" value="Addison's Disease"> Addison's Disease</label>
+    <label><input type="checkbox" name="metabolic_health" value="Obesity"> Obesity</label>
+    <label><input type="checkbox" name="metabolic_health" value="Grave's Disease"> Grave's Disease</label>
+    <label><input type="checkbox" name="metabolic_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Respiratory Health</h2>
+  <div class="checkbox-group" id="respiratory_health_group">
+    <label><input type="checkbox" name="respiratory_health" value="Asthma"> Asthma</label>
+    <label><input type="checkbox" name="respiratory_health" value="Sleep Apnea"> Sleep Apnea</label>
+    <label><input type="checkbox" name="respiratory_health" value="Tuberculosis"> Tuberculosis</label>
+    <label><input type="checkbox" name="respiratory_health" value="Lung Cancer"> Lung Cancer</label>
+    <label><input type="checkbox" name="respiratory_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Urinary Health</h2>
+  <div class="checkbox-group" id="urinary_health_group">
+    <label><input type="checkbox" name="urinary_health" value="Urinary Tract Infection"> Urinary Tract Infection</label>
+    <label><input type="checkbox" name="urinary_health" value="Painful urination"> Painful urination</label>
+    <label><input type="checkbox" name="urinary_health" value="Bladder Cancer"> Bladder Cancer</label>
+    <label><input type="checkbox" name="urinary_health" value="Urinary Incontinence"> Urinary Incontinence</label>
+    <label><input type="checkbox" name="urinary_health" value="Kidney stones"> Kidney stones</label>
+    <label><input type="checkbox" name="urinary_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Digestive Health</h2>
+  <div class="checkbox-group" id="digestive_health_group">
+    <label><input type="checkbox" name="digestive_health" value="Gallstones"> Gallstones</label>
+    <label><input type="checkbox" name="digestive_health" value="Celiac Disease"> Celiac Disease</label>
+    <label><input type="checkbox" name="digestive_health" value="Crohn's Disease"> Crohn's Disease</label>
+    <label><input type="checkbox" name="digestive_health" value="Peptic Ulcers"> Peptic Ulcers</label>
+    <label><input type="checkbox" name="digestive_health" value="Hemorrhoids"> Hemorrhoids</label>
+    <label><input type="checkbox" name="digestive_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Skin & Hair Health</h2>
+  <div class="checkbox-group" id="skin_hair_health_group">
+    <label><input type="checkbox" name="skin_hair_health" value="Acne"> Acne</label>
+    <label><input type="checkbox" name="skin_hair_health" value="Eczema"> Eczema</label>
+    <label><input type="checkbox" name="skin_hair_health" value="Psoriasis"> Psoriasis</label>
+    <label><input type="checkbox" name="skin_hair_health" value="Vitiligo"> Vitiligo</label>
+    <label><input type="checkbox" name="skin_hair_health" value="Cellulitis"> Cellulitis</label>
+    <label><input type="checkbox" name="skin_hair_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Bone & Joint Health</h2>
+  <div class="checkbox-group" id="bone_joint_health_group">
+    <label><input type="checkbox" name="bone_joint_health" value="Osteoporosis"> Osteoporosis</label>
+    <label><input type="checkbox" name="bone_joint_health" value="Arthritis"> Arthritis</label>
+    <label><input type="checkbox" name="bone_joint_health" value="Gout"> Gout</label>
+    <label><input type="checkbox" name="bone_joint_health" value="Scoliosis"> Scoliosis</label>
+    <label><input type="checkbox" name="bone_joint_health" value="Lupus(sle)"> Lupus(sle)</label>
+    <label><input type="checkbox" name="bone_joint_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Cardiovascular Health</h2>
+  <div class="checkbox-group" id="cardiovascular_health_group">
+    <label><input type="checkbox" name="cardiovascular_health" value="High Blood Pressure"> High Blood Pressure</label>
+    <label><input type="checkbox" name="cardiovascular_health" value="Stroke"> Stroke</label>
+    <label><input type="checkbox" name="cardiovascular_health" value="Heart Disease"> Heart Disease</label>
+    <label><input type="checkbox" name="cardiovascular_health" value="Pericarditis"> Pericarditis</label>
+    <label><input type="checkbox" name="cardiovascular_health" value="Cardiomyopathy"> Cardiomyopathy</label>
+    <label><input type="checkbox" name="cardiovascular_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Breast Health</h2>
+  <div class="checkbox-group" id="breast_health_group">
+    <label><input type="checkbox" name="breast_health" value="Mastitis"> Mastitis</label>
+    <label><input type="checkbox" name="breast_health" value="Galactorrhea"> Galactorrhea</label>
+    <label><input type="checkbox" name="breast_health" value="Breast Cancer"> Breast Cancer</label>
+    <label><input type="checkbox" name="breast_health" value="Breast Calcifications"> Breast Calcifications</label>
+    <label><input type="checkbox" name="breast_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Reproductive Health</h2>
+  <div class="checkbox-group" id="reproductive_health_group">
+    <label><input type="checkbox" name="reproductive_health" value="Endometriosis"> Endometriosis</label>
+    <label><input type="checkbox" name="reproductive_health" value="Uterine Fibroids"> Uterine Fibroids</label>
+    <label><input type="checkbox" name="reproductive_health" value="Menopause"> Menopause</label>
+    <label><input type="checkbox" name="reproductive_health" value="Vulvodynia"> Vulvodynia</label>
+    <label><input type="checkbox" name="reproductive_health" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Lifestyle</h2>
+  <label for="diet">Dietary preference</label>
+  <select id="diet" name="diet">
+    <option value="">Select</option>
+    <option value="Vegetarian">Vegetarian</option>
+    <option value="Non-Vegetarian">Non-Vegetarian</option>
+    <option value="Vegan">Vegan</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label for="physical_activity">Physical activity</label>
+  <select id="physical_activity" name="physical_activity">
+    <option value="">Select</option>
+    <option value="None">None</option>
+    <option value="Light">Light</option>
+    <option value="Moderate">Moderate</option>
+    <option value="Intense">Intense</option>
+  </select>
+
+  <label for="smoking">Smoking</label>
+  <select id="smoking" name="smoking">
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+  </select>
+
+  <label for="alcohol">Alcohol</label>
+  <select id="alcohol" name="alcohol">
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+  </select>
+
+  <label for="sleep_hours">Sleep hours per night</label>
+  <input type="number" id="sleep_hours" name="sleep_hours" min="0" max="24">
+
+  <label for="stress_level">Stress level</label>
+  <select id="stress_level" name="stress_level">
+    <option value="">Select</option>
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+  </select>
+
+  <h2>Family Medical History</h2>
+  <div class="checkbox-group" id="family_history_group">
+    <label><input type="checkbox" name="family_history" value="Breast cancer"> Breast cancer</label>
+    <label><input type="checkbox" name="family_history" value="Ovarian cancer"> Ovarian cancer</label>
+    <label><input type="checkbox" name="family_history" value="Thyroid disorders"> Thyroid disorders</label>
+    <label><input type="checkbox" name="family_history" value="Diabetes"> Diabetes</label>
+    <label><input type="checkbox" name="family_history" value="Hypertension"> Hypertension</label>
+    <label><input type="checkbox" name="family_history" value="Other"> Other</label>
+    <label><input type="checkbox" name="family_history" value="None" class="none-checkbox"> None</label>
+  </div>
+
+  <h2>Uploads</h2>
+  <label for="lab_reports">Upload lab reports</label>
+  <input type="file" id="lab_reports" name="lab_reports" accept=".pdf,.jpg,.jpeg,.png">
+
+  <h2>Consent</h2>
+  <div class="consent-container">
+    <label>
+      <input type="checkbox" id="consent" name="consent" required>
+      I agree to share my data for personalized health recommendations.
+    </label>
+  </div>
+
+  <button type="submit">Submit</button>
+
+  <div class="footer">
+    © 2025 Women's Health AI | Confidential and compassionate care for every woman.
+  </div>
+</form>
+
+<script>
+  // Handle "None" checkbox exclusivity
+  document.querySelectorAll('.checkbox-group').forEach(group => {
+    const noneCheckbox = group.querySelector('.none-checkbox');
+    const otherCheckboxes = group.querySelectorAll('input[type="checkbox"]:not(.none-checkbox)');
+
+    noneCheckbox.addEventListener('change', () => {
+      if (noneCheckbox.checked) {
+        otherCheckboxes.forEach(cb => cb.checked = false);
+      }
+    });
+
+    otherCheckboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (cb.checked) {
+          noneCheckbox.checked = false;
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

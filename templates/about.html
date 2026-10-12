@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Fem-AI Vision</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f6fc;
+            color: #333;
+            margin: 0;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 30px;
+            color: darkmagenta;
+        }
+        .nav {
+            background-color: #3c1361;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav a {
+            color: white;
+            padding: 14px 30px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav a.active {
+            background-color: #1a00ff;
+        }
+        .nav a:hover {
+            background-color: #5f27cd;
+        }
+        ul {
+            margin-left: 20px;
+            list-style-type: disc;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: darkviolet;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-img {
+            height: 80px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: palevioletred;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease, border 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: darkmagenta;
+        }
+
+       
+        .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color:blue;
+    }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+          <div class="logo">
+          <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Women's Health Logo" class="logo-img">
+          </div>
+          <ul class="nav-links">
+               <ul class="nav-links">
+    <li><a href="{{ url_for('login') }}">Login</a></li>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('input_page') }}">Health Input</a></li>
+    <li><a href="{{ url_for('report_page') }}">Personalized Report</a></li>
+    <li><a href="{{ url_for('recom_page') }}">Recommendations</a></li>
+    <li><a href="{{ url_for('consultation') }}">Consultation</a></li>
+    <li><a href="{{ url_for('about') }}"class="active">About us</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
+    
+
+    <!-- About Us Section -->
+    <h2>About Fem-AI Vision</h2>
+    <p>
+        Our platform is committed to empowering women with AI-driven health insights for early risk detection, 
+        personalized wellness plans, and expert support. We aim to foster a proactive approach to healthcare, 
+        ensuring every woman can thrive physically, mentally, and emotionally.
+    </p>
+
+    <h2>Objective</h2>
+    <p>
+        Empowering women with AI-driven health insights, our system predicts risks early, personalizes prevention, 
+        and promotes proactive well-being for a healthier future.
+    </p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li><strong>Early Risk Prediction:</strong> AI analyzes health data to detect potential issues at an early stage.</li>
+        <li><strong>Data-Driven Decisions:</strong> Tailored suggestions based on real-time user input and patterns.</li>
+        <li><strong>Secure & Private:</strong> Ensures that all personal health data is confidential and encrypted.</li>
+        <li><strong>User-Friendly Interface:</strong> Easy to navigate and accessible for users of all ages.</li>
+        <li><strong>Real-Time Monitoring & Alerts:</strong> Receive instant updates and health alerts based on changes.</li>
+    </ul>
+
+    <h2>How It Works</h2>
+    <ul>
+        <li>User registers or logs in to the platform.</li>
+        <li>Inputs health details like symptoms, history, and lifestyle choices.</li>
+        <li>AI analyzes the data and predicts potential health risks.</li>
+        <li>Generates a personalized health report with actionable insights.</li>
+        <li>Recommends next steps including wellness tips, doctor consultation, or lab tests.</li>
+        <li>AI continuously learns from user data to refine predictions and recommendations.</li>
+    </ul>
+
+    <h2>Why This Platform Matters</h2>
+    <ul>
+        <li>Addresses the unique health needs of women with personalized care.</li>
+        <li>Empowers users with the tools and knowledge for prevention and self-care.</li>
+        <li>Creates a safe, inclusive space for health-related discussions and support.</li>
+        <li>Encourages healthier lifestyles with curated content and expert advice.</li>
+    </ul>
+    <div class="footer">
+        &copy; 2025 Women's Health AI | Confidential and compassionate care for every woman.
+      </div>
+</body>
+</html>

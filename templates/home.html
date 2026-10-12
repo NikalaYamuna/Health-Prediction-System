@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fem-AI Vision</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background-image: url("{{ url_for('static', filename='img.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      scroll-behavior: smooth;
+      color: greenyellow;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    .content {
+      flex: 1 0 auto;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: violet;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-img {
+      height: 90px;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: palevioletred;
+      font-weight: 600;
+      font-size: 1.3rem;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .nav-links li a:hover {
+      color: darkmagenta;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-links li a.active {
+      color: darkmagenta;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: calc(100vh - 160px); /* Adjust for navbar + footer height */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      border-radius: 12px;
+    }
+
+    .hero-text {
+      z-index: 2;
+      color: white;
+    }
+
+    .hero-text h1 {
+      font-size: 4rem;
+      font-family: 'Snap ITC', sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    .tagline {
+      font-size: 1.5rem;
+      color: #ffd700;
+      margin-bottom: 2rem;
+      font-family: 'Pacifico', cursive;
+    }
+
+    .primary {
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      background-color: blue;
+      color: white;
+      transition: background 0.3s ease;
+    }
+
+    .primary:hover {
+      background-color: darkblue;
+    }
+
+    .footer {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 0.9rem;
+      color: blue;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-text h1 {
+        font-size: 2.5rem;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-end;
+      }
+
+      .logo-img {
+        height: 90px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Content wrapper for flex layout -->
+  <div class="content">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="logo-img" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+        <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('input_page') }}" class="{% if request.endpoint == 'input_page' %}active{% endif %}">Health Input</a></li>
+        <li><a href="{{ url_for('report_page') }}" class="{% if request.endpoint == 'report_page' %}active{% endif %}">Personalized Report</a></li>
+        <li><a href="{{ url_for('recom_page') }}" class="{% if request.endpoint == 'recom_page' %}active{% endif %}">Recommendations</a></li>
+        <li><a href="{{ url_for('consultation') }}" class="{% if request.endpoint == 'consultation' %}active{% endif %}">Consultation</a></li>
+        <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Us</a></li>
+        <li><a href="{{ url_for('logout') }}" class="{% if request.endpoint == 'logout' %}active{% endif %}">Logout</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="overlay">
+        <div class="hero-text">
+          <h1>Fem-AI Vision</h1>
+          <p class="tagline">Predict – Prevent – Prosper</p>
+          <div class="buttons">
+            <a href="{{ url_for('input_page') }}">
+              <button class="primary">Get Started</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © <span id="year"></span> Women's Health AI | Confidential and compassionate care for every woman.
+  </footer>
+
+  <!-- Script to Dynamically Set the Year -->
+  <script>
+    window.onload = function() {
+      const yearSpan = document.getElementById('year');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Fem-AI Vision</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background-image: url("{{ url_for('static', filename='background.jpg') }}");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      background-color: #ffe4e1;
+      position: relative;
+    }
+
+    .logo-top-left {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .logo-top-left img {
+      height: 90px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-title {
+      font-size: 40px;
+      font-weight: bold;
+      color: blue;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      margin-top: 80px;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      width: 300px;
+      margin-top: 20px;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #d63384;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #c2185b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Alert pop-up for flash messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <script>
+        alert("{{ messages[0] }}");
+      </script>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Logo floating at top-left -->
+  <div class="logo-top-left">
+    <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" />
+  </div>
+
+  <!-- Title -->
+  <div class="page-title">Fem-AI Vision</div>
+
+  <!-- Login Form -->
+  <div class="login-container">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label for="userid">User ID / Email</label>
+        <input type="text" id="userid" name="userid" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <button class="submit-btn" type="submit">Submit</button>
+    </form>
+  </div>
+
+</body>
+</html>

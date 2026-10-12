@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Recommendations - Women's Health</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #fdfdfd;
+    }
+
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: darkviolet;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-img {
+      height: 80px;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: palevioletred;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: darkmagenta;
+      text-decoration: underline;
+    }
+
+    h1 {
+      text-align: center;
+      color: darkred;
+      margin-bottom: 30px;
+    }
+
+    .recommendation-section {
+      max-width: 1500px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .category {
+      margin-bottom: 30px;
+    }
+
+    .category h2 {
+      color: darkviolet;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .category ul {
+      padding-left: 20px;
+    }
+
+    .category ul li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: blue;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-end;
+        margin-top: 1rem;
+      }
+
+      .logo-img {
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="logo-img">
+      </div>
+      <ul class="nav-links">
+    <li><a href="{{ url_for('login') }}">Login</a></li>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('input_page') }}">Health Input</a></li>
+    <li><a href="{{ url_for('report_page') }}">Personalized Report</a></li>
+    <li><a href="{{ url_for('recom_page') }}" class="active">Recommendations</a></li>
+    <li><a href="{{ url_for('consultation') }}">Consultation</a></li>
+    <li><a href="{{ url_for('about') }}">About Us</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+</ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="recommendation-section" id="recommendations">
+      <h1>Your Personalized Health Recommendations</h1>
+
+      <div class="category">
+        <h2>Diet & Nutrition</h2>
+        <ul>
+          <li>Incorporate more fiber-rich vegetables and fruits into your daily meals.</li>
+          <li>Limit processed sugars and increase protein intake, especially if diabetic or prediabetic.</li>
+          <li>For thyroid support, consider iodine-rich foods like seaweed or iodized salt (in moderation).</li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Exercise & Physical Activity</h2>
+        <ul>
+          <li>Engage in moderate aerobic activity for at least 150 minutes per week.</li>
+          <li>Include strength training to improve bone density and reduce joint pain risks.</li>
+          <li>Practice yoga or stretching for stress relief and joint flexibility.</li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Mental Well-being</h2>
+        <ul>
+          <li>Practice mindfulness techniques like meditation or journaling daily.</li>
+          <li>Consult a licensed therapist if you're experiencing symptoms of depression or anxiety.</li>
+          <li>Maintain social connections and reach out for support when needed.</li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Preventive Care</h2>
+        <ul>
+          <li>Schedule annual checkups, pap smears, and breast exams as recommended.</li>
+          <li>Monitor blood pressure and blood sugar regularly.</li>
+          <li>Update vaccinations and screen for hereditary conditions if family history is relevant.</li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Sleep & Lifestyle</h2>
+        <ul>
+          <li>Aim for 7–9 hours of quality sleep per night.</li>
+          <li>Reduce screen time before bed and establish a consistent bedtime routine.</li>
+          <li>Avoid smoking and limit alcohol intake to promote long-term well-being.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    &copy; 2025 Women's Health AI | Confidential and compassionate care for every woman.
+  </div>
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

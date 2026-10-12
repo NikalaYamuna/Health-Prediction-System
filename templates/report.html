@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalized Health Report</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: darkviolet;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-img {
+      height: 80px;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: palevioletred;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .nav-links li a:hover {
+      color: darkmagenta;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-links li a.active {
+      color: darkmagenta;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: darkred;
+    }
+
+    h2 {
+      color: darkviolet;
+      margin-top: 30px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    p, li {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .file-link {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+
+    .file-link:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: blue;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      margin: 20px 0;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #45a049;
+    }
+
+    .download-section {
+      text-align: center;
+    }
+
+    @media print {
+      .navbar, .download-btn {
+        display: none;
+      }
+      .container {
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      body {
+        margin: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-end;
+      }
+
+      .logo-img {
+        height: 50px;
+      }
+
+      .download-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Women's Health Logo" class="logo-img">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+      <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
+      <li><a href="{{ url_for('input_page') }}" class="{% if request.endpoint == 'input_page' %}active{% endif %}">Health Input</a></li>
+      <li><a href="{{ url_for('report_page') }}" class="{% if request.endpoint == 'report_page' %}active{% endif %}">Personalized Report</a></li>
+      <li><a href="{{ url_for('recom_page') }}" class="{% if request.endpoint == 'recom_page' %}active{% endif %}">Recommendations</a></li>
+      <li><a href="{{ url_for('consultation') }}" class="{% if request.endpoint == 'consultation' %}active{% endif %}">Consultation</a></li>
+      <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Us</a></li>
+      <li><a href="{{ url_for('logout') }}" class="{% if request.endpoint == 'logout' %}active{% endif %}">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>Personalized Health Report</h1>
+
+  <div class="section">
+    <h2>Basic Information</h2>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Age:</strong> {{ user.age }}</p>
+    <p><strong>Height:</strong> {{ user.height if user.height is not none else 'Not provided' }} cm</p>
+    <p><strong>Weight:</strong> {{ user.weight if user.weight is not none else 'Not provided' }} kg</p>
+    <p><strong>Contact:</strong> {{ user.email if user.email else 'Not provided' }}</p>
+    <p><strong>Consent Given:</strong> {{ 'Yes' if user.consent else 'No' }}</p>
+    {% if user.file_path %}
+      <p><strong>Uploaded File:</strong> <a href="{{ url_for('static', filename=user.file_path.split('static/')[1]) }}" class="file-link" target="_blank">View File</a></p>
+    {% endif %}
+  </div>
+
+  <div class="section">
+    <h2>Lifestyle Information</h2>
+    <p><strong>Dietary Preference:</strong> {{ user.lifestyle.diet }}</p>
+    <p><strong>Physical Activity:</strong> {{ user.lifestyle.activity }}</p>
+    <p><strong>Smoking:</strong> {{ user.lifestyle.smoking }}</p>
+    <p><strong>Alcohol:</strong> {{ user.lifestyle.alcohol }}</p>
+    <p><strong>Sleep Hours:</strong> {{ user.lifestyle.sleep if user.lifestyle.sleep is not none else 'Not provided' }}</p>
+    <p><strong>Stress Level:</strong> {{ user.lifestyle.stress }}</p>
+  </div>
+
+  <div class="section">
+    <h2>Health Conditions</h2>
+    <p><strong>Mental Health:</strong> {{ user.health_conditions.mental_health|join(', ') if user.health_conditions.mental_health else 'None' }}</p>
+    <p><strong>Metabolic Health:</strong> {{ user.health_conditions.metabolic_health|join(', ') if user.health_conditions.metabolic_health else 'None' }}</p>
+    <p><strong>Respiratory Health:</strong> {{ user.health_conditions.respiratory_health|join(', ') if user.health_conditions.respiratory_health else 'None' }}</p>
+    <p><strong>Urinary Health:</strong> {{ user.health_conditions.urinary_health|join(', ') if user.health_conditions.urinary_health else 'None' }}</p>
+    <p><strong>Digestive Health:</strong> {{ user.health_conditions.digestive_health|join(', ') if user.health_conditions.digestive_health else 'None' }}</p>
+    <p><strong>Skin & Hair Health:</strong> {{ user.health_conditions.skin_hair_health|join(', ') if user.health_conditions.skin_hair_health else 'None' }}</p>
+    <p><strong>Bone & Joint Health:</strong> {{ user.health_conditions.bone_joint_health|join(', ') if user.health_conditions.bone_joint_health else 'None' }}</p>
+    <p><strong>Cardiovascular Health:</strong> {{ user.health_conditions.cardiovascular_health|join(', ') if user.health_conditions.cardiovascular_health else 'None' }}</p>
+    <p><strong>Breast Health:</strong> {{ user.health_conditions.breast_health|join(', ') if user.health_conditions.breast_health else 'None' }}</p>
+    <p><strong>Reproductive Health:</strong> {{ user.health_conditions.reproductive_health|join(', ') if user.health_conditions.reproductive_health else 'None' }}</p>
+    <p><strong>Family Medical History:</strong> {{ user.health_conditions.family_history|join(', ') if user.health_conditions.family_history else 'None' }}</p>
+  </div>
+
+  <div class="section">
+    <h2>AI Risk Predictions</h2>
+    <ul>
+      {% if user.ai_risk_prediction.moderate_cardio_risk %}
+        <li>Moderate Cardiovascular Risk: Consider consulting a cardiologist.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.diabetes_screening_needed %}
+        <li>Diabetes Screening Needed: Schedule a blood sugar test.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.respiratory_checkup_needed %}
+        <li>Respiratory Checkup Needed: Consult a pulmonologist.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.cancer_screening_recommended %}
+        <li>Cancer Screening Recommended: Schedule a mammogram or related tests.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.bone_health_monitoring %}
+        <li>Bone Health Monitoring: Consider a bone density test.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.reproductive_health_checkup %}
+        <li>Reproductive Health Checkup: Consult a gynecologist.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.urinary_health_monitoring %}
+        <li>Urinary Health Monitoring: Schedule a urology consultation.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.digestive_health_monitoring %}
+        <li>Digestive Health Monitoring: Consult a gastroenterologist.</li>
+      {% endif %}
+      {% if user.ai_risk_prediction.skin_hair_health_monitoring %}
+        <li>Skin & Hair Health Monitoring: Consult a dermatologist.</li>
+      {% endif %}
+      {% if not (user.ai_risk_prediction.moderate_cardio_risk or user.ai_risk_prediction.diabetes_screening_needed or user.ai_risk_prediction.respiratory_checkup_needed or user.ai_risk_prediction.cancer_screening_recommended or user.ai_risk_prediction.bone_health_monitoring or user.ai_risk_prediction.reproductive_health_checkup or user.ai_risk_prediction.urinary_health_monitoring or user.ai_risk_prediction.digestive_health_monitoring or user.ai_risk_prediction.skin_hair_health_monitoring) %}
+        <li>No significant risks identified at this time.</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Recommendations</h2>
+    <ul>
+      {% for rec in user.recommendations %}
+        <li>{{ rec }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="download-section">
+    <button class="download-btn" onclick="window.print()">Download/Print Report</button>
+  </div>
+
+  <div class="footer">
+    © 2025 Women's Health AI | Confidential and compassionate care for every woman.
+  </div>
+</div>
+
+</body>
+</html>
